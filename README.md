@@ -102,6 +102,8 @@ Pipeline steps:
 
 Public URL placeholder: `https://app-aegis-orbit-rm99781.azurewebsites.net`
 
+The included `startup.sh` installs the small Python dependency set into `/tmp/aegis-python` before starting Uvicorn. This keeps App Service startup independent from a long remote Oryx build during direct ZIP deployment.
+
 ## Evidence checklist
 
 - App public landing page loaded.

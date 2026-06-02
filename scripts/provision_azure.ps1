@@ -161,7 +161,7 @@ az webapp config appsettings set `
     --name $AppName `
     --resource-group $ResourceGroup `
     --settings `
-        SCM_DO_BUILD_DURING_DEPLOYMENT=true `
+        SCM_DO_BUILD_DURING_DEPLOYMENT=false `
         KEY_VAULT_NAME=$KeyVaultName `
         SSA_API_MOCK_TOKEN_SECRET_NAME=$SecretName `
         APPLICATIONINSIGHTS_CONNECTION_STRING=$connectionString `
