@@ -8,3 +8,4 @@ env/
 .coverage
 htmlcov/
 .python-version
+.agents/
