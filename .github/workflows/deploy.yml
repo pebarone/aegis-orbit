@@ -42,8 +42,9 @@ jobs:
           $ErrorActionPreference = "Stop"
           $resourceGroup = "rg-aegis-orbit-rm99781"
           $app = "${{ env.AZURE_WEBAPP_NAME }}"
+          $startup = "bash -c 'cd /home/site/wwwroot && python -m pip install --no-cache-dir --disable-pip-version-check -r requirements.txt --target /tmp/aegis-python && export PYTHONPATH=/tmp/aegis-python:`${PYTHONPATH:-} && python -m uvicorn app.main:app --host 0.0.0.0 --port `${PORT:-8000}'"
           az webapp config appsettings set --resource-group $resourceGroup --name $app --settings SCM_DO_BUILD_DURING_DEPLOYMENT=false --output none
-          az webapp config set --resource-group $resourceGroup --name $app --startup-file "bash /home/site/wwwroot/startup.sh" --output none
+          az webapp config set --resource-group $resourceGroup --name $app --startup-file $startup --output none
           $creds = az webapp deployment list-publishing-credentials --resource-group $resourceGroup --name $app | ConvertFrom-Json
           $basic = [Convert]::ToBase64String([Text.Encoding]::ASCII.GetBytes("$($creds.publishingUserName):$($creds.publishingPassword)"))
           $headers = @{ Authorization = "Basic $basic"; "If-Match" = "*" }

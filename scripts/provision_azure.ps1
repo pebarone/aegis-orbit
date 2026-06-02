@@ -129,7 +129,7 @@ az webapp create `
     --resource-group $ResourceGroup `
     --plan $PlanName `
     --runtime "PYTHON:3.12" `
-    --startup-file "bash /home/site/wwwroot/startup.sh"
+    --startup-file "bash -c 'cd /home/site/wwwroot && python -m pip install --no-cache-dir --disable-pip-version-check -r requirements.txt --target /tmp/aegis-python && export PYTHONPATH=/tmp/aegis-python:${PYTHONPATH:-} && python -m uvicorn app.main:app --host 0.0.0.0 --port ${PORT:-8000}'"
 
 az webapp update `
     --name $AppName `
