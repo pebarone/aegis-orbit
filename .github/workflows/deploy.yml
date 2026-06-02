@@ -66,5 +66,13 @@ jobs:
         shell: pwsh
         run: |
           $ErrorActionPreference = "Stop"
-          Start-Sleep -Seconds 90
-          Invoke-RestMethod "https://${{ env.AZURE_WEBAPP_NAME }}.azurewebsites.net/health" -TimeoutSec 30
+          $url = "https://${{ env.AZURE_WEBAPP_NAME }}.azurewebsites.net/health"
+          for ($attempt = 1; $attempt -le 18; $attempt++) {
+            try {
+              Invoke-RestMethod $url -TimeoutSec 30
+              exit 0
+            } catch {
+              Start-Sleep -Seconds 20
+            }
+          }
+          throw "Health endpoint did not become ready."
