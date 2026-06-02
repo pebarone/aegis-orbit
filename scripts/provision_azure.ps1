@@ -129,7 +129,7 @@ az webapp create `
     --resource-group $ResourceGroup `
     --plan $PlanName `
     --runtime "PYTHON:3.12" `
-    --startup-file "bash startup.sh"
+    --startup-file "bash /home/site/wwwroot/startup.sh"
 
 az webapp update `
     --name $AppName `
