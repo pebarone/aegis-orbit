@@ -48,7 +48,7 @@ jobs:
           $basic = [Convert]::ToBase64String([Text.Encoding]::ASCII.GetBytes("$($creds.publishingUserName):$($creds.publishingPassword)"))
           $headers = @{ Authorization = "Basic $basic"; "If-Match" = "*" }
           $base = "https://$app.scm.azurewebsites.net/api"
-          $body = @{ command = '/bin/sh -c "rm -rf /home/site/wwwroot/* && mkdir -p /home/site/wwwroot/app"'; dir = "/home/site/wwwroot" } | ConvertTo-Json
+          $body = @{ command = '/bin/sh -c "rm -rf /home/site/wwwroot/* && mkdir -p /home/site/wwwroot/app && touch /home/site/wwwroot/requirements.txt /home/site/wwwroot/startup.sh /home/site/wwwroot/app/main.py /home/site/wwwroot/app/__init__.py"'; dir = "/home/site/wwwroot" } | ConvertTo-Json
           Invoke-RestMethod -Method Post -Uri "$base/command" -Headers @{ Authorization = "Basic $basic" } -ContentType "application/json" -Body $body -TimeoutSec 60 | Out-Null
           Invoke-WebRequest -Method Put -Uri "$base/vfs/site/wwwroot/requirements.txt" -Headers $headers -InFile requirements.txt -ContentType "text/plain" -TimeoutSec 60 | Out-Null
           Invoke-WebRequest -Method Put -Uri "$base/vfs/site/wwwroot/startup.sh" -Headers $headers -InFile startup.sh -ContentType "text/x-sh" -TimeoutSec 60 | Out-Null
