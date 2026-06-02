@@ -86,6 +86,4 @@ The action group includes an email receiver supplied by the `-AlertEmail` parame
 
 ## Public URL
 
-Placeholder: `https://app-aegis-orbit-rm99781.azurewebsites.net`
-
-Replace with deployed App Service URL if a unique app name parameter is used.
+`https://app-aegis-orbit-rm99781.azurewebsites.net`
