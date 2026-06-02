@@ -60,10 +60,9 @@ jobs:
             }
           }
           Write-KuduFile "requirements.txt" "/home/site/wwwroot/requirements.txt"
-          Write-KuduFile "startup.sh" "/home/site/wwwroot/startup.sh"
           Write-KuduFile "app/main.py" "/home/site/wwwroot/app/main.py"
           Write-KuduFile "app/__init__.py" "/home/site/wwwroot/app/__init__.py"
-          $verifyBody = @{ command = '/bin/sh -c "test -s /home/site/wwwroot/startup.sh && test -s /home/site/wwwroot/app/main.py"'; dir = "/" } | ConvertTo-Json
+          $verifyBody = @{ command = '/bin/sh -c "test -s /home/site/wwwroot/app/main.py"'; dir = "/" } | ConvertTo-Json
           $verify = Invoke-RestMethod -Method Post -Uri "$base/command" -Headers @{ Authorization = "Basic $basic" } -ContentType "application/json" -Body $verifyBody -TimeoutSec 60
           if ($verify.ExitCode -ne 0) {
             throw "Deployment file verification failed."
