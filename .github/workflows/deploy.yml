@@ -52,14 +52,22 @@ jobs:
           Invoke-RestMethod -Method Post -Uri "$base/command" -Headers @{ Authorization = "Basic $basic" } -ContentType "application/json" -Body $body -TimeoutSec 60 | Out-Null
           function Write-KuduFile($localPath, $remotePath) {
             $payload = [Convert]::ToBase64String([IO.File]::ReadAllBytes($localPath))
-            $command = "/bin/sh -c `"echo '$payload' | base64 -d > '$remotePath'`""
+            $command = "/bin/sh -c `"printf '%s' '$payload' | base64 -d > $remotePath && chmod 755 $remotePath`""
             $writeBody = @{ command = $command; dir = "/home/site/wwwroot" } | ConvertTo-Json -Compress
-            Invoke-RestMethod -Method Post -Uri "$base/command" -Headers @{ Authorization = "Basic $basic" } -ContentType "application/json" -Body $writeBody -TimeoutSec 60 | Out-Null
+            $result = Invoke-RestMethod -Method Post -Uri "$base/command" -Headers @{ Authorization = "Basic $basic" } -ContentType "application/json" -Body $writeBody -TimeoutSec 60
+            if ($result.ExitCode -ne 0) {
+              throw "Kudu write failed for $remotePath`: $($result.Error)"
+            }
           }
           Write-KuduFile "requirements.txt" "/home/site/wwwroot/requirements.txt"
           Write-KuduFile "startup.sh" "/home/site/wwwroot/startup.sh"
           Write-KuduFile "app/main.py" "/home/site/wwwroot/app/main.py"
           Write-KuduFile "app/__init__.py" "/home/site/wwwroot/app/__init__.py"
+          $verifyBody = @{ command = '/bin/sh -c "test -s /home/site/wwwroot/startup.sh && test -s /home/site/wwwroot/app/main.py"'; dir = "/home/site/wwwroot" } | ConvertTo-Json
+          $verify = Invoke-RestMethod -Method Post -Uri "$base/command" -Headers @{ Authorization = "Basic $basic" } -ContentType "application/json" -Body $verifyBody -TimeoutSec 60
+          if ($verify.ExitCode -ne 0) {
+            throw "Deployment file verification failed."
+          }
           az webapp restart --resource-group $resourceGroup --name $app --output none
 
       - name: Smoke test public app

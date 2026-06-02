@@ -63,12 +63,21 @@ Screenshots:
 
 ## CI/CD status
 
-Workflow file exists at `.github/workflows/deploy.yml`.
+Repository:
 
-Pending external GitHub steps:
+- `https://github.com/pebarone/aegis-orbit`
 
-- Create remote GitHub repository.
-- Add secret `AZURE_CREDENTIALS`.
-- Push `main`.
-- Create two commits or push two distinct commits to generate two visible GitHub Actions deployments.
+Workflow file:
 
+- `.github/workflows/deploy.yml`
+
+GitHub Secret:
+
+- `AZURE_CREDENTIALS` exists in the repository.
+
+Successful GitHub Actions deployment runs:
+
+- `https://github.com/pebarone/aegis-orbit/actions/runs/26793391167`
+- `https://github.com/pebarone/aegis-orbit/actions/runs/26793611966`
+
+Later workflow hardening added explicit Kudu write verification so a deploy cannot pass if `startup.sh` or `app/main.py` is missing.
