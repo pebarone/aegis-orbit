@@ -2,10 +2,11 @@ from __future__ import annotations
 
 import os
 from datetime import datetime, timedelta, timezone
+from pathlib import Path
 from typing import Literal
 
 from fastapi import FastAPI
-from fastapi.responses import HTMLResponse
+from fastapi.responses import FileResponse, HTMLResponse, Response
 from pydantic import BaseModel, Field
 
 
@@ -14,6 +15,7 @@ VERSION = "0.1.0"
 TEAM_ID = "RM99781"
 ODS = "ODS 9 - Industry, Innovation and Infrastructure"
 BASE_IGNITION_TIME = datetime(2026, 6, 3, 12, 0, tzinfo=timezone.utc)
+FRONTEND_DIST = Path(__file__).resolve().parent.parent / "frontend" / "dist"
 
 
 class EvasionRoutingRequest(BaseModel):
@@ -209,6 +211,33 @@ def dashboard() -> str:
 <section class="grid">{rows}</section>
 """
     return page_shell("AegisOrbit Operations Dashboard", body)
+
+
+def frontend_response(path: str = "index.html") -> Response:
+    if not FRONTEND_DIST.exists():
+        return HTMLResponse(
+            "<h1>AegisOrbit frontend build is not available.</h1><p>Run the frontend build before deployment.</p>",
+            status_code=503,
+        )
+
+    requested = (FRONTEND_DIST / path).resolve()
+    if FRONTEND_DIST not in requested.parents and requested != FRONTEND_DIST:
+        requested = FRONTEND_DIST / "index.html"
+
+    if requested.is_file():
+        return FileResponse(requested)
+
+    return FileResponse(FRONTEND_DIST / "index.html")
+
+
+@app.get("/app", include_in_schema=False)
+def frontend_app() -> Response:
+    return frontend_response()
+
+
+@app.get("/app/{path:path}", include_in_schema=False)
+def frontend_app_path(path: str) -> Response:
+    return frontend_response(path)
 
 
 @app.get("/health")
