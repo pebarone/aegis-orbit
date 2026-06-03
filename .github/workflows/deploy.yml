@@ -63,7 +63,9 @@ jobs:
           Copy-Item requirements.txt deploy-package/
           Copy-Item app/*.py deploy-package/app/
           Copy-Item frontend/dist deploy-package/frontend/ -Recurse
-          Compress-Archive -Path deploy-package/* -DestinationPath deploy.zip -Force
+          Push-Location deploy-package
+          zip -r ../deploy.zip .
+          Pop-Location
           az webapp deploy --resource-group $resourceGroup --name $app --src-path deploy.zip --type zip --clean true --restart false --output none
           az webapp restart --resource-group $resourceGroup --name $app --output none
 
