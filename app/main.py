@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import os
+from math import exp, log10
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import Literal
@@ -78,6 +79,23 @@ def classify_risk(miss_distance_km: float, collision_probability: float) -> str:
     return "nominal"
 
 
+def clamp(value: float, lower: float, upper: float) -> float:
+    return max(lower, min(upper, value))
+
+
+def estimate_risk_reduction_percent(payload: EvasionRoutingRequest, delta_v_ms: float) -> float:
+    pc_pressure = clamp((log10(max(payload.collision_probability, 1e-9)) + 9.0) / 6.0, 0.0, 1.0)
+    miss_pressure = clamp((5.0 - payload.miss_distance_km) / 5.0, 0.0, 1.0)
+    velocity_pressure = clamp(payload.relative_velocity_kms / 20.0, 0.0, 1.0)
+
+    modeled_miss_gain_km = delta_v_ms * (0.24 + payload.relative_velocity_kms * 0.028)
+    required_gain_km = 0.35 + payload.miss_distance_km * 0.42 + velocity_pressure * 1.2 + pc_pressure * 0.75
+    maneuver_effectiveness = 1.0 - exp(-modeled_miss_gain_km / required_gain_km)
+    scenario_penalty = pc_pressure * 4.5 + miss_pressure * 2.5 + velocity_pressure * 2.0
+
+    return round(clamp(28.0 + maneuver_effectiveness * 72.0 - scenario_penalty, 12.0, 97.5), 1)
+
+
 def build_recommendation(payload: EvasionRoutingRequest) -> ManeuverRecommendation:
     risk_level = classify_risk(payload.miss_distance_km, payload.collision_probability)
     risk_factor = {
@@ -91,7 +109,7 @@ def build_recommendation(payload: EvasionRoutingRequest) -> ManeuverRecommendati
         max(0.08, min(4.5, payload.relative_velocity_kms * risk_factor / max(payload.miss_distance_km, 0.2))),
         3,
     )
-    reduction = round(min(96.5, 45.0 + risk_factor * 45.0), 1)
+    reduction = estimate_risk_reduction_percent(payload, delta_v)
     residual_pc = round(payload.collision_probability * (1 - reduction / 100), 10)
     satellite_offset = sum(ord(char) for char in payload.satellite_id) % 90
     urgency_offset = {"critical": 18, "high": 36, "watch": 72, "nominal": 180}[risk_level]

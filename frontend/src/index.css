@@ -25,3 +25,44 @@
 .progress-bar-fill { transition: width 1s cubic-bezier(0.4, 0, 0.2, 1); }
 .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
 .material-symbols-outlined.filled { font-variation-settings: 'FILL' 1; }
+
+.risk-orbit-svg .risk-pulse {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: risk-pulse var(--risk-speed, 2s) ease-out infinite;
+}
+
+.risk-orbit-svg .risk-sweep {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: orbit-sweep var(--risk-speed, 2s) linear infinite;
+}
+
+.risk-orbit-svg .risk-debris {
+  filter: drop-shadow(0 0 8px var(--risk-color));
+  animation: debris-alert var(--risk-speed, 2s) ease-out infinite;
+}
+
+@keyframes risk-pulse {
+  0% { opacity: 0.18; transform: scale(0.72); }
+  58% { opacity: 0.42; transform: scale(1); }
+  100% { opacity: 0; transform: scale(1.22); }
+}
+
+@keyframes orbit-sweep {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes debris-alert {
+  0%, 100% { opacity: 0.72; transform: scale(0.92); }
+  50% { opacity: 1; transform: scale(1.08); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .risk-orbit-svg .risk-pulse,
+  .risk-orbit-svg .risk-sweep,
+  .risk-orbit-svg .risk-debris {
+    animation: none;
+  }
+}
