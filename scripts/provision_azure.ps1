@@ -189,12 +189,12 @@ az monitor metrics alert create `
     --name $AlertName `
     --resource-group $ResourceGroup `
     --scopes $appResourceId `
-    --description "AegisOrbit App Service HTTP 5xx alert" `
+    --description "OrbitGuard App Service HTTP 5xx alert" `
     --condition "total Http5xx > 5" `
     --window-size 5m `
     --evaluation-frequency 1m `
     --severity 2 `
     --action $actionGroupId
 
-Write-Host "Provisioned AegisOrbit."
+Write-Host "Provisioned OrbitGuard."
 Write-Host "App URL: https://$AppName.azurewebsites.net"

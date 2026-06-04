@@ -10,13 +10,13 @@ def test_health() -> None:
     response = client.get("/health")
     assert response.status_code == 200
     assert response.json()["status"] == "healthy"
-    assert response.json()["service"] == "AegisOrbit"
+    assert response.json()["service"] == "OrbitGuard"
 
 
 def test_landing_and_dashboard_pages() -> None:
     landing = client.get("/")
     assert landing.status_code == 200
-    assert "AegisOrbit" in landing.text
+    assert "OrbitGuard" in landing.text
     assert "RM99781" in landing.text
     assert "ODS 9" in landing.text
 
@@ -30,7 +30,7 @@ def test_status() -> None:
     response = client.get("/api/status")
     assert response.status_code == 200
     data = response.json()
-    assert data["service"] == "AegisOrbit"
+    assert data["service"] == "OrbitGuard"
     assert data["team"] == "RM99781"
     assert data["config"]["external_api_mode"] == "disabled-deterministic-simulation"
     assert data["azure_readiness"]["app_service_ready"] is True

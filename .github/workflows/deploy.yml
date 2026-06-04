@@ -1,4 +1,4 @@
-name: Deploy AegisOrbit
+name: Deploy OrbitGuard
 
 on:
   push:
@@ -52,22 +52,12 @@ jobs:
       - name: Deploy to Azure App Service
         shell: pwsh
         run: |
-          $ErrorActionPreference = "Stop"
-          $resourceGroup = "rg-aegis-orbit-rm99781"
-          $app = "${{ env.AZURE_WEBAPP_NAME }}"
-          $startup = "bash -c 'cd /home/site/wwwroot && python -m pip install --no-cache-dir --disable-pip-version-check -r requirements.txt --target /tmp/aegis-python && export PYTHONPATH=/tmp/aegis-python:`${PYTHONPATH:-} && python -m uvicorn app.main:app --host 0.0.0.0 --port `${PORT:-8000}'"
-          az webapp config appsettings set --resource-group $resourceGroup --name $app --settings SCM_DO_BUILD_DURING_DEPLOYMENT=false --output none
-          az webapp config set --resource-group $resourceGroup --name $app --startup-file $startup --output none
-          Remove-Item -Recurse -Force deploy-package, deploy.zip -ErrorAction SilentlyContinue
-          New-Item -ItemType Directory -Path deploy-package/app, deploy-package/frontend | Out-Null
-          Copy-Item requirements.txt deploy-package/
-          Copy-Item app/*.py deploy-package/app/
-          Copy-Item frontend/dist deploy-package/frontend/ -Recurse
-          Push-Location deploy-package
-          zip -r ../deploy.zip .
-          Pop-Location
-          az webapp deploy --resource-group $resourceGroup --name $app --src-path deploy.zip --type zip --clean true --restart false --output none
-          az webapp restart --resource-group $resourceGroup --name $app --output none
+          ./scripts/deploy_azure.ps1 `
+            -AppName "${{ env.AZURE_WEBAPP_NAME }}" `
+            -SkipTests `
+            -SkipFrontendInstall `
+            -SkipFrontendBuild `
+            -SkipSmokeTest
 
       - name: Smoke test public app
         shell: pwsh

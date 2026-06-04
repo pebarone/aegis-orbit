@@ -36,7 +36,7 @@ export const SystemStatusPage = () => {
                         <div className="bg-surface border border-surface-border rounded-sm p-gutter flex flex-col gap-control-density relative overflow-hidden">
                             <div className="absolute top-0 left-0 w-1 h-full bg-primary"></div>
                             <span className="font-data-label text-data-label text-on-surface-variant uppercase">Service Name</span>
-                            <span className="font-data-display text-data-display text-on-surface">{status?.service ?? 'AegisOrbit'}</span>
+                            <span className="font-data-display text-data-display text-on-surface">{status?.service ?? 'OrbitGuard'}</span>
                         </div>
                         <div className="bg-surface border border-surface-border rounded-sm p-gutter flex flex-col gap-gutter">
                             <span className="font-data-label text-data-label text-on-surface-variant uppercase border-b border-surface-border pb-unit">Deployment Status</span>

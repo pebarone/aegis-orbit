@@ -10,7 +10,7 @@ from fastapi.responses import FileResponse, HTMLResponse, Response
 from pydantic import BaseModel, Field
 
 
-APP_NAME = "AegisOrbit"
+APP_NAME = "OrbitGuard"
 VERSION = "0.1.0"
 TEAM_ID = "RM99781"
 ODS = "ODS 9 - Industry, Innovation and Infrastructure"
@@ -124,7 +124,7 @@ def build_recommendation(payload: EvasionRoutingRequest) -> ManeuverRecommendati
 
 
 app = FastAPI(
-    title="AegisOrbit SSA API",
+    title="OrbitGuard SSA API",
     description="Deterministic Space Situational Awareness MVP for orbital conjunction monitoring and evasion routing.",
     version=VERSION,
 )
@@ -172,7 +172,7 @@ def landing() -> str:
 <section class="grid">
   <div class="card">
     <h2>Purpose</h2>
-    <p>AegisOrbit is a Space Situational Awareness MVP for satellite operators and SSA teams. It simulates orbital catalog ingestion, conjunction risk scoring, and evasion-routing recommendations for LEO assets.</p>
+    <p>OrbitGuard is a Space Situational Awareness MVP for satellite operators and SSA teams. It simulates orbital catalog ingestion, conjunction risk scoring, and evasion-routing recommendations for LEO assets.</p>
   </div>
   <div class="card">
     <h2>Team</h2>
@@ -210,13 +210,13 @@ def dashboard() -> str:
 <p>Deterministic simulated conjunction alerts for LEO assets. Data is fixed for demos and tests; no external API required.</p>
 <section class="grid">{rows}</section>
 """
-    return page_shell("AegisOrbit Operations Dashboard", body)
+    return page_shell("OrbitGuard Operations Dashboard", body)
 
 
 def frontend_response(path: str = "index.html") -> Response:
     if not FRONTEND_DIST.exists():
         return HTMLResponse(
-            "<h1>AegisOrbit frontend build is not available.</h1><p>Run the frontend build before deployment.</p>",
+            "<h1>OrbitGuard frontend build is not available.</h1><p>Run the frontend build before deployment.</p>",
             status_code=503,
         )
 

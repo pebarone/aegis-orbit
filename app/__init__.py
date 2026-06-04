@@ -1,1 +1,1 @@
-"""AegisOrbit FastAPI application package."""
+"""OrbitGuard FastAPI application package."""
