@@ -61,7 +61,7 @@ async function requestJson<T>(path: string, init?: RequestInit): Promise<T> {
 
   if (!response.ok) {
     const detail = await response.text();
-    throw new Error(detail || `Requisicao falhou com status ${response.status}`);
+    throw new Error(detail || `Requisição falhou com status ${response.status}`);
   }
 
   return response.json() as Promise<T>;

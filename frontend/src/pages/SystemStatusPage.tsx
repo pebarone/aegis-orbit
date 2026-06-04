@@ -23,24 +23,24 @@ export const SystemStatusPage = () => {
             <div className="max-w-7xl mx-auto relative z-10 flex flex-col gap-gutter">
                 <div className="flex flex-col md:flex-row md:items-end justify-between gap-gutter border-b border-surface-border pb-gutter">
                     <div>
-                        <h1 className="font-headline-lg text-headline-lg text-on-surface">Saude da API e do Servico</h1>
+                        <h1 className="font-headline-lg text-headline-lg text-on-surface">Saúde da API e do Serviço</h1>
                         <p className="font-body-md text-body-md text-on-surface-variant mt-unit">{API_BASE_URL}</p>
                     </div>
                     <div className="flex items-center gap-control-density bg-surface-container border border-surface-border px-gutter py-2 rounded-sm">
                         <span className={`w-3 h-3 rounded-full glowing-dot pulse ${health?.status === 'healthy' ? 'bg-status-nominal text-status-nominal' : 'bg-status-high text-status-high'}`}></span>
-                        <span className="font-data-label text-data-label text-on-surface uppercase">{health?.status === 'healthy' ? 'saudavel' : 'verificando API'}</span>
+                        <span className="font-data-label text-data-label text-on-surface uppercase">{health?.status === 'healthy' ? 'saudável' : 'verificando API'}</span>
                     </div>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-12 gap-gutter mt-gutter">
                     <div className="md:col-span-4 flex flex-col gap-gutter">
                         <div className="bg-surface border border-surface-border rounded-sm p-gutter flex flex-col gap-control-density relative overflow-hidden">
                             <div className="absolute top-0 left-0 w-1 h-full bg-primary"></div>
-                            <span className="font-data-label text-data-label text-on-surface-variant uppercase">Nome do Servico</span>
+                            <span className="font-data-label text-data-label text-on-surface-variant uppercase">Nome do Serviço</span>
                             <span className="font-data-display text-data-display text-on-surface">{status?.service ?? 'OrbitGuard'}</span>
                         </div>
                         <div className="bg-surface border border-surface-border rounded-sm p-gutter flex flex-col gap-gutter">
                             <span className="font-data-label text-data-label text-on-surface-variant uppercase border-b border-surface-border pb-unit">Status do Deploy</span>
-                            <div className="flex justify-between items-center"><span className="text-on-surface">Versao</span><span className="text-status-nominal font-data-label">{status?.version ?? '-'}</span></div>
+                            <div className="flex justify-between items-center"><span className="text-on-surface">Versão</span><span className="text-status-nominal font-data-label">{status?.version ?? '-'}</span></div>
                             <div className="flex justify-between items-center"><span className="text-on-surface">Equipe</span><span className="text-status-nominal font-data-label">{status?.team ?? '-'}</span></div>
                             <div className="flex justify-between items-center"><span className="text-on-surface">Alertas</span><span className="text-status-high font-data-label">{status?.simulated_alert_count ?? '-'}</span></div>
                         </div>

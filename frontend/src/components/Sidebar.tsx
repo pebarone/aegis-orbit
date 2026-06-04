@@ -21,13 +21,13 @@ export const Sidebar = () => {
     return (
         <nav className="bg-surface-container-low border-r border-surface-border hidden md:flex flex-col py-gutter fixed left-0 top-16 bottom-0 w-64 z-40">
             <div className="px-gutter mb-6">
-                <h2 className="font-headline-md text-headline-md font-black text-on-surface uppercase">OPERACOES</h2>
-                <p className="font-label-sm text-label-sm text-on-surface-variant uppercase mt-1">No Setor-7G</p>
+                <h2 className="font-headline-md text-headline-md font-black text-on-surface uppercase">OPERAÇÕES</h2>
+                <p className="font-label-sm text-label-sm text-on-surface-variant uppercase mt-1">Nó Setor-7G</p>
             </div>
             <div className="flex flex-col flex-1 gap-1 px-unit">
                 <NavItem to="/" icon="dashboard" label="Painel" />
-                <NavItem to="/conjunctions" icon="radar" label="Conjuncoes" />
-                <NavItem to="/evasion" icon="timeline" label="Rota de Evasao" />
+                <NavItem to="/conjunctions" icon="radar" label="Conjunções" />
+                <NavItem to="/evasion" icon="timeline" label="Rota de Evasão" />
                 <NavItem to="/status" icon="terminal" label="Status do Sistema" />
             </div>
             <div className="flex flex-col gap-1 px-unit mt-auto border-t border-surface-border pt-4">

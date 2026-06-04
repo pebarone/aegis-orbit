@@ -6,7 +6,7 @@ export const Header = () => (
             <h1 className="font-headline-md text-headline-md font-bold tracking-tighter text-primary">OrbitGuard Controle SSA</h1>
             <div className="hidden md:flex items-center gap-6 border-l border-surface-border pl-6">
                 <span className="font-data-label text-data-label text-on-surface-variant flex items-center gap-2">
-                    <span className="material-symbols-outlined text-[16px]">schedule</span> RELOGIO DA MISSAO: 14:22:05 UTC
+                    <span className="material-symbols-outlined text-[16px]">schedule</span> RELÓGIO DA MISSÃO: 14:22:05 UTC
                 </span>
                 <span className="font-data-label text-data-label text-status-nominal flex items-center gap-2">
                     [!] API AZURE: CONECTADA
@@ -17,7 +17,7 @@ export const Header = () => (
             <a
                 href="/docs"
                 className="text-on-surface-variant hover:text-primary hover:bg-surface-container-low transition-colors p-2 rounded-sm active:scale-[0.99]"
-                title="Abrir documentacao Swagger da API"
+                title="Abrir documentação Swagger da API"
             >
                 <span className="material-symbols-outlined">api</span>
             </a>

@@ -9,9 +9,9 @@ const severityClass: Record<Severity, string> = {
 };
 
 const severityLabel: Record<Severity, string> = {
-    critical: 'critico',
+    critical: 'crítico',
     high: 'alto',
-    watch: 'atencao',
+    watch: 'atenção',
     nominal: 'nominal',
 };
 
@@ -40,7 +40,7 @@ export const ConjunctionsPage = () => {
             <div className="border-b border-surface-border bg-surface flex flex-col sm:flex-row justify-between items-start sm:items-center p-gutter gap-4 flex-shrink-0">
                 <div className="flex items-center gap-3">
                     <span className="material-symbols-outlined text-primary text-2xl">radar</span>
-                    <h2 className="font-headline-md text-headline-md text-on-surface">Lista de Conjuncoes</h2>
+                    <h2 className="font-headline-md text-headline-md text-on-surface">Lista de Conjunções</h2>
                     <span className="bg-surface-container-high text-on-surface-variant font-data-label text-data-label px-2 py-1 rounded-sm border border-surface-border ml-2">
                         {items.length} ATIVOS
                     </span>

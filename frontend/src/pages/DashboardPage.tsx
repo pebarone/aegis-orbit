@@ -3,9 +3,9 @@ import { api, type ConjunctionAlert, type StatusResponse } from '../api';
 
 const severityLabel: Record<ConjunctionAlert['severity'], string> = {
     nominal: 'nominal',
-    watch: 'atencao',
+    watch: 'atenção',
     high: 'alto',
-    critical: 'critico',
+    critical: 'crítico',
 };
 
 export const DashboardPage = () => {
@@ -31,9 +31,9 @@ export const DashboardPage = () => {
                             <span className="material-symbols-outlined text-[32px] text-status-critical filled">gavel</span>
                         </div>
                         <div>
-                            <div className="font-data-label text-data-label text-status-critical uppercase tracking-widest mb-1">Indicador Global de Ameaca</div>
+                            <div className="font-data-label text-data-label text-status-critical uppercase tracking-widest mb-1">Indicador Global de Ameaça</div>
                             <h2 className="font-headline-lg text-headline-lg text-on-surface uppercase">
-                                {criticalAlert ? `risco de conjuncao ${severityLabel[criticalAlert.severity]}` : 'Carregando risco de conjuncao'}
+                                {criticalAlert ? `risco de conjunção ${severityLabel[criticalAlert.severity]}` : 'Carregando risco de conjunção'}
                             </h2>
                         </div>
                     </div>
@@ -50,25 +50,25 @@ export const DashboardPage = () => {
                     </div>
                     <div>
                         <div className="font-data-display text-data-display text-primary text-3xl">{status?.simulated_alert_count ?? alerts.length}</div>
-                        <div className="font-label-sm text-label-sm text-status-nominal flex items-center gap-1 mt-1">Fonte deterministica da API</div>
+                        <div className="font-label-sm text-label-sm text-status-nominal flex items-center gap-1 mt-1">Fonte determinística da API</div>
                     </div>
                 </div>
 
                 <div className="col-span-12 md:col-span-4 bg-surface-container border border-status-high p-4 flex flex-col justify-between h-32 hover:border-status-critical transition-colors group relative overflow-hidden rounded-sm">
                     <div className="absolute inset-0 bg-status-high/5 group-hover:bg-status-high/10 transition-colors"></div>
                     <div className="flex justify-between items-start relative z-10">
-                        <span className="font-data-label text-data-label text-status-high uppercase">Conjuncoes de Alto Risco</span>
+                        <span className="font-data-label text-data-label text-status-high uppercase">Conjunções de Alto Risco</span>
                         <span className="material-symbols-outlined text-status-high">warning_amber</span>
                     </div>
                     <div className="relative z-10">
                         <div className="font-data-display text-data-display text-on-surface text-3xl">{highRiskCount}</div>
-                        <div className="font-label-sm text-label-sm text-status-high flex items-center gap-1 mt-1">Severidade critica ou alta</div>
+                        <div className="font-label-sm text-label-sm text-status-high flex items-center gap-1 mt-1">Severidade crítica ou alta</div>
                     </div>
                 </div>
 
                 <div className="col-span-12 md:col-span-4 bg-surface-container border border-surface-border p-4 flex flex-col justify-between h-32 hover:border-outline-variant transition-colors group rounded-sm">
                     <div className="flex justify-between items-start">
-                        <span className="font-data-label text-data-label text-on-surface-variant uppercase">Saude da API</span>
+                        <span className="font-data-label text-data-label text-on-surface-variant uppercase">Saúde da API</span>
                         <span className="material-symbols-outlined text-status-nominal">health_and_safety</span>
                     </div>
                     <div>
@@ -103,7 +103,7 @@ export const DashboardPage = () => {
                         </div>
                         <div className="absolute bottom-4 left-4 bg-surface-container-high/80 backdrop-blur-md border border-surface-border p-2 rounded-sm z-20">
                             <div className="font-data-label text-[10px] text-on-surface-variant">REF ALVO: <span className="text-primary">{criticalAlert?.object_id ?? 'OBJ'}</span></div>
-                            <div className="font-data-label text-[10px] text-on-surface-variant">DISTANCIA: <span className="text-on-surface">{criticalAlert?.miss_distance_km ?? '-'} km</span></div>
+                            <div className="font-data-label text-[10px] text-on-surface-variant">DISTÂNCIA: <span className="text-on-surface">{criticalAlert?.miss_distance_km ?? '-'} km</span></div>
                         </div>
                     </div>
                 </div>

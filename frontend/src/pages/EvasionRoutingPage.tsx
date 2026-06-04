@@ -30,12 +30,12 @@ const clamp = (value: number, lower: number, upper: number) => Math.max(lower, M
 const sliderConfigs: SliderConfig[] = [
     {
         field: 'miss_distance_km',
-        label: 'Distancia Minima',
+        label: 'Distância Mínima',
         min: 0.05,
         max: 20,
         step: 0.01,
         unit: 'km',
-        description: 'Menor separacao prevista entre o satelite protegido e o objeto rastreado. Valores menores aumentam a pressao geometrica de colisao.',
+        description: 'Menor separação prevista entre o satélite protegido e o objeto rastreado. Valores menores aumentam a pressão geométrica de colisão.',
         format: (value) => value.toFixed(2),
     },
     {
@@ -45,17 +45,17 @@ const sliderConfigs: SliderConfig[] = [
         max: 20,
         step: 0.1,
         unit: 'km/s',
-        description: 'Velocidade de aproximacao no encontro orbital. Quanto maior, menor o tempo util de correcao e maior a dificuldade da manobra.',
+        description: 'Velocidade de aproximação no encontro orbital. Quanto maior, menor o tempo útil de correção e maior a dificuldade da manobra.',
         format: (value) => value.toFixed(1),
     },
     {
         field: 'collision_probability',
-        label: 'Probabilidade de Colisao',
+        label: 'Probabilidade de Colisão',
         min: 0,
         max: 0.001,
         step: 0.000001,
         unit: 'Pc',
-        description: 'Probabilidade modelada de colisao. A simulacao usa escala logaritmica porque valores realistas de Pc sao muito pequenos.',
+        description: 'Probabilidade modelada de colisão. A simulação usa escala logarítmica porque valores realistas de Pc são muito pequenos.',
         format: (value) => value.toExponential(2),
     },
 ];
@@ -84,7 +84,7 @@ const buildRiskPreview = (form: EvasionRoutingRequest): RiskPreview => {
         nominal: {
             color: '#34C759',
             trackColor: 'rgba(52, 199, 89, 0.22)',
-            label: 'Risco pratico baixo',
+            label: 'Risco prático baixo',
         },
         watch: {
             color: '#FFCC00',
@@ -124,16 +124,16 @@ const resultColorClass: Record<ManeuverRecommendation['risk_level'], string> = {
 
 const riskLabel: Record<ManeuverRecommendation['risk_level'], string> = {
     nominal: 'nominal',
-    watch: 'atencao',
+    watch: 'atenção',
     high: 'alto',
-    critical: 'critico',
+    critical: 'crítico',
 };
 
 const recommendationText: Record<ManeuverRecommendation['risk_level'], string> = {
-    nominal: 'Manobra nao requerida. Mantenha a conjuncao em monitoramento SSA de rotina.',
-    watch: 'Prepare um plano de queima contingencial e solicite uma nova atualizacao de rastreio antes da ignicao.',
-    high: 'Execute uma queima de evasao prograde ao longo da orbita, com confirmacao de rastreio pos-manobra.',
-    critical: 'Execute uma queima de evasao prograde ao longo da orbita, com confirmacao de rastreio pos-manobra.',
+    nominal: 'Manobra não requerida. Mantenha a conjunção em monitoramento SSA de rotina.',
+    watch: 'Prepare um plano de queima contingencial e solicite uma nova atualização de rastreio antes da ignição.',
+    high: 'Execute uma queima de evasão prograde ao longo da órbita, com confirmação de rastreio pós-manobra.',
+    critical: 'Execute uma queima de evasão prograde ao longo da órbita, com confirmação de rastreio pós-manobra.',
 };
 
 const RiskOrbitSvg = ({ preview }: { preview: RiskPreview }) => {
@@ -144,7 +144,7 @@ const RiskOrbitSvg = ({ preview }: { preview: RiskPreview }) => {
     } as CSSProperties;
 
     return (
-        <svg className="risk-orbit-svg w-full h-full min-h-[260px]" viewBox="0 0 360 260" role="img" aria-label={`${preview.label}, ${preview.riskIndex} por cento de pressao de risco`} style={svgStyle}>
+        <svg className="risk-orbit-svg w-full h-full min-h-[260px]" viewBox="0 0 360 260" role="img" aria-label={`${preview.label}, ${preview.riskIndex} por cento de pressão de risco`} style={svgStyle}>
             <defs>
                 <radialGradient id="risk-glow" cx="50%" cy="50%" r="50%">
                     <stop offset="0%" stopColor={preview.color} stopOpacity="0.45" />
@@ -178,7 +178,7 @@ const RiskOrbitSvg = ({ preview }: { preview: RiskPreview }) => {
             <g transform="translate(24 24)">
                 <text x="0" y="0" fill="#c2c6d8" fontFamily="JetBrains Mono, monospace" fontSize="11">CAMPO DE RISCO</text>
                 <text x="0" y="26" fill={preview.color} fontFamily="JetBrains Mono, monospace" fontSize="28" fontWeight="700">{preview.riskIndex}</text>
-                <text x="58" y="25" fill="#e1e2ee" fontFamily="Geist, sans-serif" fontSize="13">pressao</text>
+                <text x="58" y="25" fill="#e1e2ee" fontFamily="Geist, sans-serif" fontSize="13">pressão</text>
             </g>
         </svg>
     );
@@ -210,7 +210,7 @@ export const EvasionRoutingPage = () => {
             const recommendation = await api.calculateEvasion(form);
             setResult(recommendation);
         } catch (reason) {
-            setError(reason instanceof Error ? reason.message : 'Nao foi possivel calcular a manobra.');
+            setError(reason instanceof Error ? reason.message : 'Não foi possível calcular a manobra.');
         } finally {
             setCalculating(false);
         }
@@ -219,13 +219,13 @@ export const EvasionRoutingPage = () => {
     return (
         <main className="flex-1 md:ml-64 mt-16 overflow-y-auto p-margin-desktop h-[calc(100vh-64px)]">
             <div className="mb-8">
-                <h2 className="font-headline-lg text-headline-lg text-on-surface">Rota de Evasao</h2>
-                <p className="font-body-md text-body-md text-on-surface-variant mt-2">Calcule manobras delta-v com pontuacao ao vivo da API.</p>
+                <h2 className="font-headline-lg text-headline-lg text-on-surface">Rota de Evasão</h2>
+                <p className="font-body-md text-body-md text-on-surface-variant mt-2">Calcule manobras delta-v com pontuação ao vivo da API.</p>
             </div>
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-gutter">
                 <div className="lg:col-span-4 flex flex-col gap-gutter">
                     <div className="bg-surface-container border border-surface-border p-6 rounded-sm">
-                        <h3 className="font-headline-md text-headline-md text-on-surface mb-6 border-b border-surface-border pb-4">Parametros da Conjuncao</h3>
+                        <h3 className="font-headline-md text-headline-md text-on-surface mb-6 border-b border-surface-border pb-4">Parâmetros da Conjunção</h3>
                         <form className="space-y-6" onSubmit={(e) => { e.preventDefault(); void handleCalculate(); }}>
                             <div className="flex flex-col gap-2">
                                 <label className="font-data-label text-data-label text-on-surface-variant uppercase">ID do Ativo Alvo</label>
@@ -274,9 +274,9 @@ export const EvasionRoutingPage = () => {
                             </div>
                             <div className="p-5 flex flex-col justify-center gap-4 border-t xl:border-t-0 xl:border-l border-surface-border">
                                 <div>
-                                    <span className="font-data-label text-on-surface-variant uppercase">Previa de Severidade</span>
+                                    <span className="font-data-label text-on-surface-variant uppercase">Prévia de Severidade</span>
                                     <div className={`mt-2 font-data-display text-3xl uppercase ${resultColorClass[preview.riskLevel]}`}>{riskLabel[preview.riskLevel]}</div>
-                                    <p className="font-body-md text-body-md text-on-surface-variant mt-3">{preview.label}. O SVG reage imediatamente a distancia minima, velocidade de aproximacao e Pc antes do envio do calculo de manobra para a API.</p>
+                                    <p className="font-body-md text-body-md text-on-surface-variant mt-3">{preview.label}. O SVG reage imediatamente a distância mínima, velocidade de aproximação e Pc antes do envio do cálculo de manobra para a API.</p>
                                 </div>
                                 <div className="grid grid-cols-3 gap-2 border-t border-surface-border pt-4">
                                     <div>
@@ -296,7 +296,7 @@ export const EvasionRoutingPage = () => {
                         </div>
                     </div>
                     <div className="bg-surface-container border border-surface-border p-4 rounded-sm col-span-1 md:col-span-2">
-                        <span className="font-data-label text-on-surface-variant uppercase tracking-widest">Reducao de Risco Pos-Manobra</span>
+                        <span className="font-data-label text-on-surface-variant uppercase tracking-widest">Redução de Risco Pós-Manobra</span>
                         <div className="mt-2">
                             <span className="font-headline-lg font-bold text-secondary-container">{result ? `${result.risk_reduction_percent.toFixed(1)}%` : '0.0%'}</span>
                             <div className="w-full bg-telemetry-bg h-4 rounded-sm mt-2 border border-surface-border">
@@ -305,17 +305,17 @@ export const EvasionRoutingPage = () => {
                         </div>
                     </div>
                     <div className="bg-surface-container border border-surface-border p-4 rounded-sm">
-                        <span className="font-data-label text-on-surface-variant uppercase">Delta-V Necessario</span>
+                        <span className="font-data-label text-on-surface-variant uppercase">Delta-V Necessário</span>
                         <div className="mt-2 text-primary font-data-display text-3xl">{result ? result.estimated_delta_v_ms.toFixed(3) : '0.000'} <span className="text-sm">m/s</span></div>
                     </div>
                     <div className="bg-surface-container border border-surface-border p-4 rounded-sm">
-                        <span className="font-data-label text-on-surface-variant uppercase">Nivel de Risco</span>
+                        <span className="font-data-label text-on-surface-variant uppercase">Nível de Risco</span>
                         <div className={`mt-2 font-data-display text-3xl uppercase ${resultColorClass[activeRiskLevel]}`}>{riskLabel[result?.risk_level ?? preview.riskLevel]}</div>
                     </div>
                     <div className="bg-surface-container border border-surface-border p-4 rounded-sm md:col-span-2">
-                        <span className="font-data-label text-on-surface-variant uppercase">Janela de Ignicao</span>
-                        <div className="mt-2 text-on-surface font-data-display text-lg">{result?.ignition_window_utc ?? 'Aguardando calculo'}</div>
-                        <p className="font-body-md text-body-md text-on-surface-variant mt-4">{result ? recommendationText[result.risk_level] : 'Ajuste os parametros da conjuncao para solicitar uma recomendacao da API.'}</p>
+                        <span className="font-data-label text-on-surface-variant uppercase">Janela de Ignição</span>
+                        <div className="mt-2 text-on-surface font-data-display text-lg">{result?.ignition_window_utc ?? 'Aguardando cálculo'}</div>
+                        <p className="font-body-md text-body-md text-on-surface-variant mt-4">{result ? recommendationText[result.risk_level] : 'Ajuste os parâmetros da conjunção para solicitar uma recomendação da API.'}</p>
                         {result && <p className="font-data-label text-data-label text-outline mt-4">Pc residual: {result.residual_collision_probability.toExponential(2)}</p>}
                     </div>
                 </div>
