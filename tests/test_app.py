@@ -13,17 +13,14 @@ def test_health() -> None:
     assert response.json()["service"] == "OrbitGuard"
 
 
-def test_landing_and_dashboard_pages() -> None:
-    landing = client.get("/")
-    assert landing.status_code == 200
-    assert "OrbitGuard" in landing.text
-    assert "RM99781" in landing.text
-    assert "ODS 9" in landing.text
+def test_legacy_pages_redirect_to_frontend() -> None:
+    landing = client.get("/", follow_redirects=False)
+    assert landing.status_code == 307
+    assert landing.headers["location"] == "/app/"
 
-    dashboard = client.get("/dashboard")
-    assert dashboard.status_code == 200
-    assert "AEO-LEO-104" in dashboard.text
-    assert "DEBRIS-1998-067QZ" in dashboard.text
+    dashboard = client.get("/dashboard", follow_redirects=False)
+    assert dashboard.status_code == 307
+    assert dashboard.headers["location"] == "/app/"
 
 
 def test_status() -> None:

@@ -56,6 +56,46 @@ function New-PosixZip {
     }
 }
 
+function New-KuduClient {
+    param(
+        [string]$ResourceGroup,
+        [string]$AppName
+    )
+
+    $creds = az webapp deployment list-publishing-credentials --resource-group $ResourceGroup --name $AppName | ConvertFrom-Json
+    $basic = [Convert]::ToBase64String([Text.Encoding]::ASCII.GetBytes("$($creds.publishingUserName):$($creds.publishingPassword)"))
+    return @{
+        Headers = @{ Authorization = "Basic $basic"; "If-Match" = "*" }
+        Base = "https://$AppName.scm.azurewebsites.net/api"
+    }
+}
+
+function Invoke-KuduCommand {
+    param(
+        [hashtable]$Client,
+        [string]$Command
+    )
+
+    $body = @{ command = $Command; dir = "/" } | ConvertTo-Json -Compress
+    $result = Invoke-RestMethod -Method Post -Uri "$($Client.Base)/command" -Headers @{ Authorization = $Client.Headers.Authorization } -ContentType "application/json" -Body $body -TimeoutSec 120
+    if ($result.ExitCode -ne 0) {
+        throw "Kudu command failed: $Command`n$($result.Error)`n$($result.Output)"
+    }
+}
+
+function Write-KuduVfsFile {
+    param(
+        [hashtable]$Client,
+        [string]$LocalPath,
+        [string]$RemotePath
+    )
+
+    $fullPath = (Resolve-Path -LiteralPath $LocalPath).Path
+    $bytes = [IO.File]::ReadAllBytes($fullPath)
+    $uri = "$($Client.Base)/vfs/site/wwwroot/$RemotePath"
+    Invoke-RestMethod -Method Put -Uri $uri -Headers $Client.Headers -Body $bytes -ContentType "application/octet-stream" -TimeoutSec 120 | Out-Null
+}
+
 $repoRoot = (Resolve-Path -LiteralPath (Join-Path $PSScriptRoot "..")).Path
 $frontendDir = Join-Path $repoRoot "frontend"
 $distDir = Join-Path $frontendDir "dist"
@@ -117,7 +157,17 @@ Invoke-Step "Configure App Service startup" {
 }
 
 Invoke-Step "Deploy current repo state to App Service" {
-    az webapp deploy --resource-group $ResourceGroup --name $AppName --src-path $zipPath --type zip --clean true --restart false --output none
+    $client = New-KuduClient -ResourceGroup $ResourceGroup -AppName $AppName
+    Invoke-KuduCommand -Client $client -Command ('/bin/sh -c ' + [char]34 + 'rm -rf /home/site/wwwroot/frontend/dist && mkdir -p /home/site/wwwroot/app /home/site/wwwroot/frontend/dist' + [char]34)
+    Write-KuduVfsFile -Client $client -LocalPath "requirements.txt" -RemotePath "requirements.txt"
+    Get-ChildItem "app" -Recurse -File | ForEach-Object {
+        $relative = $_.FullName.Substring((Resolve-Path "app").Path.Length).TrimStart("\", "/").Replace("\", "/")
+        Write-KuduVfsFile -Client $client -LocalPath $_.FullName -RemotePath "app/$relative"
+    }
+    Get-ChildItem "frontend/dist" -Recurse -File | ForEach-Object {
+        $relative = $_.FullName.Substring((Resolve-Path "frontend/dist").Path.Length).TrimStart("\", "/").Replace("\", "/")
+        Write-KuduVfsFile -Client $client -LocalPath $_.FullName -RemotePath "frontend/dist/$relative"
+    }
     az webapp restart --resource-group $ResourceGroup --name $AppName --output none
 }
 

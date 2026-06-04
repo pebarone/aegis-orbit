@@ -14,9 +14,13 @@ export const Header = () => (
             </div>
         </div>
         <div className="flex items-center gap-4">
-            <button className="text-on-surface-variant hover:text-primary hover:bg-surface-container-low transition-colors p-2 rounded-sm active:scale-[0.99]">
-                <span className="material-symbols-outlined">settings</span>
-            </button>
+            <a
+                href="/docs"
+                className="text-on-surface-variant hover:text-primary hover:bg-surface-container-low transition-colors p-2 rounded-sm active:scale-[0.99]"
+                title="Open Swagger API docs"
+            >
+                <span className="material-symbols-outlined">api</span>
+            </a>
             <button className="text-on-surface-variant hover:text-primary hover:bg-surface-container-low transition-colors p-2 rounded-sm active:scale-[0.99] relative">
                 <span className="material-symbols-outlined">notifications</span>
                 <span className="absolute top-2 right-2 w-2 h-2 bg-status-critical rounded-full glowing-dot"></span>

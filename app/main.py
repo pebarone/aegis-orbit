@@ -6,7 +6,7 @@ from pathlib import Path
 from typing import Literal
 
 from fastapi import FastAPI
-from fastapi.responses import FileResponse, HTMLResponse, Response
+from fastapi.responses import FileResponse, HTMLResponse, RedirectResponse, Response
 from pydantic import BaseModel, Field
 
 
@@ -130,87 +130,14 @@ app = FastAPI(
 )
 
 
-def page_shell(title: str, body: str) -> str:
-    return f"""
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>{title}</title>
-  <style>
-    body {{ margin: 0; font-family: Arial, sans-serif; color: #e8eef8; background: #07111f; }}
-    header, main {{ max-width: 1080px; margin: 0 auto; padding: 28px; }}
-    nav a {{ color: #8fd3ff; margin-right: 18px; text-decoration: none; font-weight: 700; }}
-    .hero {{ padding: 56px 28px 18px; background: linear-gradient(135deg, #0a223d, #123024); border-bottom: 1px solid #28435f; }}
-    h1 {{ font-size: 44px; margin: 0 0 12px; }}
-    h2 {{ color: #b8dcff; }}
-    .grid {{ display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; }}
-    .card {{ border: 1px solid #2b4866; border-radius: 8px; padding: 18px; background: #0b1b2e; }}
-    .metric {{ font-size: 28px; font-weight: 700; color: #9ff0c8; }}
-    .critical {{ color: #ff9c9c; }}
-    .watch {{ color: #ffd37a; }}
-    code {{ background: #10243b; padding: 2px 6px; border-radius: 4px; }}
-  </style>
-</head>
-<body>
-  <div class="hero">
-    <header>
-      <nav><a href="/">Landing</a><a href="/dashboard">Dashboard</a><a href="/docs">API Docs</a></nav>
-      <h1>{title}</h1>
-    </header>
-  </div>
-  <main>{body}</main>
-</body>
-</html>
-"""
+@app.get("/", include_in_schema=False)
+def root_app() -> RedirectResponse:
+    return RedirectResponse(url="/app/", status_code=307)
 
 
-@app.get("/", response_class=HTMLResponse)
-def landing() -> str:
-    body = """
-<section class="grid">
-  <div class="card">
-    <h2>Purpose</h2>
-    <p>OrbitGuard is a Space Situational Awareness MVP for satellite operators and SSA teams. It simulates orbital catalog ingestion, conjunction risk scoring, and evasion-routing recommendations for LEO assets.</p>
-  </div>
-  <div class="card">
-    <h2>Team</h2>
-    <p>Team identifier: <strong>RM99781</strong>.</p>
-  </div>
-  <div class="card">
-    <h2>Problem</h2>
-    <p>Growing satellite constellations and debris increase collision risk, fuel waste, and Kessler Syndrome exposure. Operators need fast, explainable maneuver support.</p>
-  </div>
-  <div class="card">
-    <h2>ODS 9</h2>
-    <p>Protects critical orbital infrastructure through resilient software, monitoring, and realistic cloud deployment on Azure App Service.</p>
-  </div>
-</section>
-"""
-    return page_shell(APP_NAME, body)
-
-
-@app.get("/dashboard", response_class=HTMLResponse)
-def dashboard() -> str:
-    rows = ""
-    for alert in deterministic_conjunction_alerts():
-        severity = str(alert["severity"])
-        rows += f"""
-  <div class="card">
-    <h2>{alert["satellite_id"]}</h2>
-    <p>Conjunction object: <code>{alert["object_id"]}</code></p>
-    <p>Event: {alert["event_time_utc"]}</p>
-    <p class="metric {severity}">{alert["miss_distance_km"]} km miss distance</p>
-    <p>{alert["relative_velocity_kms"]} km/s relative velocity | Pc {alert["collision_probability"]}</p>
-    <p>Severity: <strong class="{severity}">{severity}</strong></p>
-  </div>
-"""
-    body = f"""
-<p>Deterministic simulated conjunction alerts for LEO assets. Data is fixed for demos and tests; no external API required.</p>
-<section class="grid">{rows}</section>
-"""
-    return page_shell("OrbitGuard Operations Dashboard", body)
+@app.get("/dashboard", include_in_schema=False)
+def legacy_dashboard_redirect() -> RedirectResponse:
+    return RedirectResponse(url="/app/", status_code=307)
 
 
 def frontend_response(path: str = "index.html") -> Response:
