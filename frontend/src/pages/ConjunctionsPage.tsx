@@ -8,6 +8,13 @@ const severityClass: Record<Severity, string> = {
     nominal: 'border-status-nominal bg-status-nominal/10 text-status-nominal',
 };
 
+const severityLabel: Record<Severity, string> = {
+    critical: 'critico',
+    high: 'alto',
+    watch: 'atencao',
+    nominal: 'nominal',
+};
+
 export const ConjunctionsPage = () => {
     const [items, setItems] = useState<ConjunctionAlert[]>([]);
     const [query, setQuery] = useState('');
@@ -33,9 +40,9 @@ export const ConjunctionsPage = () => {
             <div className="border-b border-surface-border bg-surface flex flex-col sm:flex-row justify-between items-start sm:items-center p-gutter gap-4 flex-shrink-0">
                 <div className="flex items-center gap-3">
                     <span className="material-symbols-outlined text-primary text-2xl">radar</span>
-                    <h2 className="font-headline-md text-headline-md text-on-surface">Conjunctions Feed</h2>
+                    <h2 className="font-headline-md text-headline-md text-on-surface">Lista de Conjuncoes</h2>
                     <span className="bg-surface-container-high text-on-surface-variant font-data-label text-data-label px-2 py-1 rounded-sm border border-surface-border ml-2">
-                        {items.length} ACTIVE
+                        {items.length} ATIVOS
                     </span>
                 </div>
                 <div className="flex flex-wrap items-center gap-3 w-full sm:w-auto">
@@ -43,7 +50,7 @@ export const ConjunctionsPage = () => {
                         <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-sm">search</span>
                         <input
                             className="w-full bg-surface-container-low border border-surface-border rounded-sm text-on-surface font-data-label text-data-label pl-9 pr-3 py-2 focus:border-secondary focus:ring-1 focus:outline-none transition-colors"
-                            placeholder="Search ID..."
+                            placeholder="Buscar ID..."
                             type="text"
                             value={query}
                             onChange={(event) => setQuery(event.target.value)}
@@ -57,10 +64,10 @@ export const ConjunctionsPage = () => {
                         <thead>
                             <tr className="bg-surface-container-low border-b border-surface-border font-data-label text-data-label text-on-surface-variant uppercase">
                                 <th className="p-3 font-medium">Status</th>
-                                <th className="p-3 font-medium">Asset ID</th>
-                                <th className="p-3 font-medium">Object Involved</th>
+                                <th className="p-3 font-medium">ID do Ativo</th>
+                                <th className="p-3 font-medium">Objeto Envolvido</th>
                                 <th className="p-3 font-medium">TCA (UTC)</th>
-                                <th className="p-3 font-medium text-right">Miss Dist (km)</th>
+                                <th className="p-3 font-medium text-right">Dist. Min. (km)</th>
                                 <th className="p-3 font-medium text-right">Pc</th>
                             </tr>
                         </thead>
@@ -70,7 +77,7 @@ export const ConjunctionsPage = () => {
                                     <td className="p-3">
                                         <div className={`inline-flex items-center gap-1.5 px-2 py-1 rounded-sm border ${severityClass[item.severity]}`}>
                                             <span className="material-symbols-outlined text-[14px] filled">warning</span>
-                                            {item.severity.toUpperCase()}
+                                            {severityLabel[item.severity].toUpperCase()}
                                         </div>
                                     </td>
                                     <td className="p-3 text-secondary">{item.satellite_id}</td>
