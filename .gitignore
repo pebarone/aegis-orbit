@@ -8,6 +8,7 @@ env/
 .coverage
 htmlcov/
 .python-version
+requirements.md
 .agents/
 skills-lock.json
 frontend/node_modules/

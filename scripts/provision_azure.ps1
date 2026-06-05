@@ -129,7 +129,7 @@ az webapp create `
     --resource-group $ResourceGroup `
     --plan $PlanName `
     --runtime "PYTHON:3.12" `
-    --startup-file "bash -c 'cd /home/site/wwwroot && python -m pip install --no-cache-dir --disable-pip-version-check -r requirements.txt --target /tmp/aegis-python && export PYTHONPATH=/tmp/aegis-python:${PYTHONPATH:-} && python -m uvicorn app.main:app --host 0.0.0.0 --port ${PORT:-8000}'"
+    --startup-file "bash -c 'cd /home/site/wwwroot && python -m pip install --no-cache-dir --disable-pip-version-check -r requirements.txt --target /tmp/orbit-guard-python && export PYTHONPATH=/tmp/orbit-guard-python:${PYTHONPATH:-} && python -m uvicorn app.main:app --host 0.0.0.0 --port ${PORT:-8000}'"
 
 az webapp update `
     --name $AppName `
@@ -189,12 +189,12 @@ az monitor metrics alert create `
     --name $AlertName `
     --resource-group $ResourceGroup `
     --scopes $appResourceId `
-    --description "OrbitGuard App Service HTTP 5xx alert" `
+    --description "Orbit Guard App Service HTTP 5xx alert" `
     --condition "total Http5xx > 5" `
     --window-size 5m `
     --evaluation-frequency 1m `
     --severity 2 `
     --action $actionGroupId
 
-Write-Host "Provisioned OrbitGuard."
+Write-Host "Provisioned Orbit Guard."
 Write-Host "App URL: https://$AppName.azurewebsites.net"

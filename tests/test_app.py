@@ -10,7 +10,7 @@ def test_health() -> None:
     response = client.get("/health")
     assert response.status_code == 200
     assert response.json()["status"] == "healthy"
-    assert response.json()["service"] == "OrbitGuard"
+    assert response.json()["service"] == "Orbit Guard"
 
 
 def test_legacy_pages_redirect_to_frontend() -> None:
@@ -27,7 +27,7 @@ def test_status() -> None:
     response = client.get("/api/status")
     assert response.status_code == 200
     data = response.json()
-    assert data["service"] == "OrbitGuard"
+    assert data["service"] == "Orbit Guard"
     assert data["team"] == "RM99781"
     assert data["config"]["external_api_mode"] == "disabled-deterministic-simulation"
     assert data["azure_readiness"]["app_service_ready"] is True

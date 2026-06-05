@@ -3,7 +3,7 @@
 export const Header = () => (
     <header className="bg-background border-b border-surface-border flex justify-between items-center w-full px-margin-desktop h-16 z-50 fixed top-0 flex-shrink-0">
         <div className="flex items-center gap-6">
-            <h1 className="font-headline-md text-headline-md font-bold tracking-tighter text-primary">OrbitGuard Controle SSA</h1>
+            <h1 className="font-headline-md text-headline-md font-bold tracking-tighter text-primary">Orbit Guard Controle SSA</h1>
             <div className="hidden md:flex items-center gap-6 border-l border-surface-border pl-6">
                 <span className="font-data-label text-data-label text-on-surface-variant flex items-center gap-2">
                     <span className="material-symbols-outlined text-[16px]">schedule</span> RELÓGIO DA MISSÃO: 14:22:05 UTC

@@ -151,7 +151,7 @@ Invoke-Step "Create deployment package" {
 }
 
 Invoke-Step "Configure App Service startup" {
-    $startup = "bash -c 'cd /home/site/wwwroot && python -m pip install --no-cache-dir --disable-pip-version-check -r requirements.txt --target /tmp/orbitguard-python && export PYTHONPATH=/tmp/orbitguard-python:`${PYTHONPATH:-} && python -m uvicorn app.main:app --host 0.0.0.0 --port `${PORT:-8000}'"
+    $startup = "bash -c 'cd /home/site/wwwroot && python -m pip install --no-cache-dir --disable-pip-version-check -r requirements.txt --target /tmp/orbit-guard-python && export PYTHONPATH=/tmp/orbit-guard-python:`${PYTHONPATH:-} && python -m uvicorn app.main:app --host 0.0.0.0 --port `${PORT:-8000}'"
     az webapp config appsettings set --resource-group $ResourceGroup --name $AppName --settings SCM_DO_BUILD_DURING_DEPLOYMENT=false --output none
     az webapp config set --resource-group $ResourceGroup --name $AppName --startup-file $startup --output none
 }

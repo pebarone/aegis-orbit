@@ -1,4 +1,4 @@
-name: Deploy OrbitGuard
+name: Deploy Orbit Guard
 
 on:
   push:

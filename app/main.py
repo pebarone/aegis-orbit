@@ -11,7 +11,7 @@ from fastapi.responses import FileResponse, HTMLResponse, RedirectResponse, Resp
 from pydantic import BaseModel, Field
 
 
-APP_NAME = "OrbitGuard"
+APP_NAME = "Orbit Guard"
 VERSION = "0.1.0"
 TEAM_ID = "RM99781"
 ODS = "ODS 9 - Industry, Innovation and Infrastructure"
@@ -142,7 +142,7 @@ def build_recommendation(payload: EvasionRoutingRequest) -> ManeuverRecommendati
 
 
 app = FastAPI(
-    title="OrbitGuard SSA API",
+    title="Orbit Guard SSA API",
     description="Deterministic Space Situational Awareness MVP for orbital conjunction monitoring and evasion routing.",
     version=VERSION,
 )
@@ -161,7 +161,7 @@ def legacy_dashboard_redirect() -> RedirectResponse:
 def frontend_response(path: str = "index.html") -> Response:
     if not FRONTEND_DIST.exists():
         return HTMLResponse(
-            "<h1>OrbitGuard frontend build is not available.</h1><p>Run the frontend build before deployment.</p>",
+            "<h1>Orbit Guard frontend build is not available.</h1><p>Run the frontend build before deployment.</p>",
             status_code=503,
         )
 
