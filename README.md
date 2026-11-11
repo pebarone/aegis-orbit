@@ -73,8 +73,6 @@ uvicorn app.main:app --reload                        # http://localhost:8000/doc
 # Frontend (served by the API at /app after building)
 npm ci --prefix frontend
 npm run build --prefix frontend                      # then open http://localhost:8000/app/
-# or run it standalone with hot reload:
-npm run dev --prefix frontend                        # set VITE_API_BASE_URL=http://localhost:8000
 ```
 
 Try the maneuver endpoint:
