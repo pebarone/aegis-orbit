@@ -1,6 +1,6 @@
 <div align="center">
 
-# 🛰️ Orbit Guard
+# Orbit Guard
 
 **Space Situational Awareness (SSA) MVP that flags orbital conjunctions and recommends collision-avoidance maneuvers.**
 
@@ -19,23 +19,23 @@
 
 ---
 
-## ✨ Overview
+## Overview
 
 Orbit Guard helps satellite operators react to **conjunction events** (a satellite getting dangerously close to debris or another object). The API serves a deterministic catalog of conjunction alerts, classifies collision risk from **miss distance** and **collision probability (Pc)**, and returns an evasive maneuver plan with an ignition window, estimated **Δv**, expected risk reduction and residual Pc.
 
 The React dashboard is built and served by the FastAPI app itself under `/app`, and everything ships to **Azure App Service** through a GitHub Actions pipeline with tests, build, deploy and a public smoke test. The project is aligned with **UN SDG 9** (Industry, Innovation and Infrastructure).
 
-## 🚀 Features
+## Features
 
-- 📡 **Conjunction alerts:** `GET /api/conjunctions` returns the monitored events (satellite, object, time, miss distance, relative velocity, Pc, severity)
-- 🧮 **Risk classification:** `nominal`, `watch`, `high` and `critical` levels from Pc and miss-distance thresholds
-- 🚀 **Evasion routing:** `POST /api/evasion-routing` computes Δv, a 12-minute ignition window, risk reduction % and residual Pc, with a readable explanation
-- ✅ **Input validation** with Pydantic (ID pattern, physical ranges for distance, velocity and probability)
-- 🩺 **Health and status:** `/health` and `/api/status`, which reports Key Vault and Application Insights configuration
-- 📖 **Swagger UI** at `/docs`
-- 🖥️ **Dashboard pages:** overview, conjunctions, evasion routing and system status
+- **Conjunction alerts:** `GET /api/conjunctions` returns the monitored events (satellite, object, time, miss distance, relative velocity, Pc, severity)
+- **Risk classification:** `nominal`, `watch`, `high` and `critical` levels from Pc and miss-distance thresholds
+- **Evasion routing:** `POST /api/evasion-routing` computes Δv, a 12-minute ignition window, risk reduction % and residual Pc, with a readable explanation
+- **Input validation** with Pydantic (ID pattern, physical ranges for distance, velocity and probability)
+- **Health and status:** `/health` and `/api/status`, which reports Key Vault and Application Insights configuration
+- **Swagger UI** at `/docs`
+- **Dashboard pages:** overview, conjunctions, evasion routing and system status
 
-## 🧱 Tech Stack
+## Tech Stack
 
 | Layer | Technologies |
 | --- | --- |
@@ -45,7 +45,7 @@ The React dashboard is built and served by the FastAPI app itself under `/app`, 
 | Cloud | Azure App Service (Linux), Key Vault + Managed Identity, Application Insights, Log Analytics, HTTP 5xx alert rule |
 | CI/CD | GitHub Actions: test → build frontend → Azure login → deploy → smoke test |
 
-## 🗂️ Project Structure
+## Project Structure
 
 ```text
 .
@@ -61,7 +61,7 @@ The React dashboard is built and served by the FastAPI app itself under `/app`, 
 └── docs/                        # technical documentation (PDF) and evidence screenshots
 ```
 
-## ⚙️ Getting Started
+## Getting Started
 
 ```bash
 # API
@@ -85,7 +85,7 @@ curl -X POST http://localhost:8000/api/evasion-routing \
 
 Optional environment variables: `KEY_VAULT_NAME`, `SSA_API_MOCK_TOKEN_SECRET_NAME`, `APPLICATIONINSIGHTS_CONNECTION_STRING`.
 
-## 📸 Screenshots
+## Screenshots
 
 | Conjunctions | System status |
 | --- | --- |
@@ -95,7 +95,7 @@ Optional environment variables: `KEY_VAULT_NAME`, `SSA_API_MOCK_TOKEN_SECRET_NAM
 
 Full write-up (Portuguese): [docs/Orbit-Guard-technical-documentation.pdf](docs/Orbit-Guard-technical-documentation.pdf)
 
-## 🎓 Academic Context
+## Academic Context
 
 Built as a **Global Solution** project (Secure DevOps Tools & Cloud Computing) for the Software Engineering program at **[FIAP](https://www.fiap.com.br/)**.
 
